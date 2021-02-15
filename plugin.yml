@@ -1,0 +1,11 @@
+name: Dind (Docker-in-Docker)
+description: Start and cleanup a dind container
+author: https://github.com/ray-project
+requirements: ["docker"]
+configuration:
+  properties:
+    network-name:
+      type: string
+    certs-volume-name:
+      type: string
+  additionalProperties: false

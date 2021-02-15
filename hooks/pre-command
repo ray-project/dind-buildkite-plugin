@@ -1,0 +1,10 @@
+set -eux
+
+echo "--- :docker: Setting up Docker-in-Docker"
+
+docker run --privileged --name dind-daemon -d \
+    --network "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" --network-alias docker \
+    -e DOCKER_TLS_CERTDIR=/certs \
+    -v docker-certs-ca:/certs/ca \
+    -v "$BUILDKITE_PLUGIN_DIND_NETWORK_CERTS_VOLUME_NAME":/certs/client \
+    docker:dind || true
