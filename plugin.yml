@@ -8,4 +8,6 @@ configuration:
       type: string
     certs-volume-name:
       type: string
+    additional-volume-mount:
+      type: string
   additionalProperties: false

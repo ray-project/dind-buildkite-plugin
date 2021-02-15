@@ -8,4 +8,5 @@ docker run --privileged --name dind-daemon -d \
     -e DOCKER_TLS_CERTDIR=/certs \
     -v docker-certs-ca:/certs/ca \
     -v "$BUILDKITE_PLUGIN_DIND_CERTS_VOLUME_NAME":/certs/client \
+    -v "$BUILDKITE_PLUGIN_ADDITIONAL_VOLUME_MOUNT" \
     docker:dind || true
