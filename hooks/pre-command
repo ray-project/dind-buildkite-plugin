@@ -1,6 +1,7 @@
 set -eux
 
 echo "--- :docker: Setting up Docker-in-Docker"
+printenv
 
 docker run --privileged --name dind-daemon -d \
     --network "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" --network-alias docker \
