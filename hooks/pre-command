@@ -4,6 +4,7 @@ echo "--- :docker: Setting up Docker-in-Docker"
 
 docker network create "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" || true
 docker kill dind-daemon || true
+docker rm dind-daemon || true
 docker volume rm ray-volume || true
 
 docker run --privileged --name dind-daemon -d --rm \
