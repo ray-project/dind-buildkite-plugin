@@ -6,7 +6,7 @@ docker network create "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" || true
 docker kill dind-daemon || true
 docker volume rm ray-volume || true
 
-docker run --privileged --name dind-daemon -d \
+docker run --privileged --name dind-daemon -d --rm \
     --network "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" --network-alias docker \
     -e DOCKER_TLS_CERTDIR=/certs \
     -v docker-certs-ca:/certs/ca \
