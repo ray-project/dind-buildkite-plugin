@@ -1,16 +1,20 @@
+#! /usr/bin/env bash
+
 set -eux
 
 echo "--- :docker: Setting up Docker-in-Docker"
 
-docker network create "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" || true
-docker stop dind-daemon || true
-docker rm dind-daemon || true
-docker volume rm ray-volume || true
+if docker ps --filter="name=dind-daemon"; then
+    echo "--- :docker: dind-daemon already exists!"
+else
+    docker network create "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" || true
+    docker rm -f -v dind-daemon || true
 
-docker run --privileged --name dind-daemon -d --rm \
-    --network "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" --network-alias docker \
-    -e DOCKER_TLS_CERTDIR=/certs \
-    -v docker-certs-ca:/certs/ca \
-    -v "$BUILDKITE_PLUGIN_DIND_CERTS_VOLUME_NAME":/certs/client \
-    -v "$BUILDKITE_PLUGIN_DIND_ADDITIONAL_VOLUME_MOUNT" \
-    docker:dind || true
+    docker run --privileged --name dind-daemon -d --rm \
+        --network "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" --network-alias docker \
+        -e DOCKER_TLS_CERTDIR=/certs \
+        -v docker-certs-ca:/certs/ca \
+        -v "$BUILDKITE_PLUGIN_DIND_CERTS_VOLUME_NAME":/certs/client \
+        -v "$BUILDKITE_PLUGIN_DIND_ADDITIONAL_VOLUME_MOUNT" \
+        docker:dind
+fi
