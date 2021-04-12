@@ -2,11 +2,12 @@
 
 set -eux
 
-echo "--- :docker: Setting up Docker-in-Docker"
+echo "--- :docker: setting up docker-in-docker"
 
-if docker ps --filter="name=dind-daemon"; then
+if docker ps -q --filter="name=dind-daemon" | grep -q .; then
     echo "--- :docker: dind-daemon already exists!"
 else
+    echo "--- :docker: creating dind-daemon"
     docker network create "$BUILDKITE_PLUGIN_DIND_NETWORK_NAME" || true
     docker rm -f -v dind-daemon || true
 
