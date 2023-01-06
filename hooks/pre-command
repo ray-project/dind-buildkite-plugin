@@ -17,5 +17,5 @@ else
         -v docker-certs-ca:/certs/ca \
         -v "$BUILDKITE_PLUGIN_DIND_CERTS_VOLUME_NAME":/certs/client \
         -v "$BUILDKITE_PLUGIN_DIND_ADDITIONAL_VOLUME_MOUNT" \
-        public.ecr.aws/b4p2j5t6/dind:latest
+        docker:dind
 fi
